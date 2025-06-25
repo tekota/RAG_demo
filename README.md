@@ -1,6 +1,7 @@
 # RAG_demo
 
-⚠️ Since this runs locally, you'll need to install Ollama's models for it to work. If you can't be bothered to do so, I included a video demonstrating how the RAG system works
+⚠️ Since this runs locally, you'll need to install Ollama's models for it to work. If you can't be bothered to do so, I am linking a video demonstrating how the RAG system works:
+https://drive.google.com/file/d/1bZ5BXw1cQg5MVs4R-WfwMd4QS45zHRSt/view?usp=sharing
 
 Using local embedding and machine learning models from Ollama, this RAG model loads, parses, chunks and retrieves context from provided files in a selected data folder. 
 Using cosine similarity to check the similiarity between the embedding vectors in the database and the prompt the user gave to the chatbot.
