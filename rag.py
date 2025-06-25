@@ -28,9 +28,9 @@ def load_documents(folder_path):
             elements = partition(filename=filepath)
             text = "\n".join([el.text for el in elements if el.text])
             dataset.append({"filename": filename, "text": text})
-            print(f"✅ Loaded {filename} ({len(text.split())} words)")
+            print(f"Loaded {filename} ({len(text.split())} words)")
         except Exception as e:
-            print(f"⚠️ Failed to parse {filename}: {e}")
+            print(f"Failed to parse {filename}: {e}")
     return dataset
 
 def chunk_text(text, chunk_size=500, chunk_overlap=50):
@@ -51,7 +51,7 @@ def embed_all_chunks(docs):
         chunks = chunk_text(doc["text"])
         for chunk in chunks:
             add_chunk_to_database(chunk)
-        print(f"🔹 Embedded {len(chunks)} chunks from {doc['filename']}")
+        print(f"Embedded {len(chunks)} chunks from {doc['filename']}")
 
 # -----------------------------
 # retreival and similarity
@@ -74,15 +74,15 @@ def retrieve(query, top_n=3):
 # -----------------------------
 
 def chat():
-    print("\n💬 Ask me anything based on your consulting documents.\n")
+    print("\nAsk me anything based on your consulting documents.\n")
     while True:
-        query = input("🧠 Your question (or type 'exit'): ")
+        query = input("Your question (or type 'exit'): ")
         if query.strip().lower() in ['exit', 'quit']:
             break
 
         results = retrieve(query)
 
-        print("\n📚 Top retrieved chunks:")
+        print("\nTop retrieved chunks:")
         for i, (chunk, score) in enumerate(results):
             print(f"  {i+1}. (score: {score:.2f}) {chunk[:100]}...")
 
@@ -97,7 +97,7 @@ Context:
 Question: {query}
 Answer:"""
 
-        print("\n🤖 Chatbot response:")
+        print("\nChatbot response:")
         stream = ollama.chat(
             model=LANGUAGE_MODEL,
             messages=[
@@ -115,10 +115,10 @@ Answer:"""
 # -----------------------------
 
 if __name__ == "__main__":
-    print("📂 Loading documents from:", DATA_FOLDER)
+    print("Loading documents from:", DATA_FOLDER)
     documents = load_documents(DATA_FOLDER)
 
-    print("\n📈 Embedding documents...")
+    print("\nEmbedding documents...")
     embed_all_chunks(documents)
 
     chat()
