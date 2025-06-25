@@ -5,19 +5,14 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 import nltk
 nltk.download('averaged_perceptron_tagger')
 
-# -----------------------------
 # configuration
-# -----------------------------
-
 EMBEDDING_MODEL = 'hf.co/CompendiumLabs/bge-base-en-v1.5-gguf'
 LANGUAGE_MODEL = 'hf.co/bartowski/Llama-3.2-1B-Instruct-GGUF'
 DATA_FOLDER = 'data/' 
 VECTOR_DB = []
 
-# -----------------------------
-# loading the files and chunking
-# -----------------------------
 
+# loading the files and chunking
 def load_documents(folder_path):
     dataset = []
     for filename in os.listdir(folder_path):
@@ -38,9 +33,8 @@ def chunk_text(text, chunk_size=500, chunk_overlap=50):
     return splitter.split_text(text)
 
 # -----------------------------
-# embedding and storing chunks
-# -----------------------------
 
+# embedding and storing chunks
 def add_chunk_to_database(chunk):
     response = ollama.embed(model=EMBEDDING_MODEL, input=chunk)
     embedding = response['embeddings'][0]
@@ -54,9 +48,8 @@ def embed_all_chunks(docs):
         print(f"Embedded {len(chunks)} chunks from {doc['filename']}")
 
 # -----------------------------
-# retreival and similarity
-# -----------------------------
 
+# retreival and similarity
 def cosine_similarity(a, b):
     dot = sum(x * y for x, y in zip(a, b))
     norm_a = sum(x**2 for x in a) ** 0.5
@@ -70,9 +63,8 @@ def retrieve(query, top_n=3):
     return scored[:top_n]
 
 # -----------------------------
-# chat function
-# -----------------------------
 
+# chat function
 def chat():
     print("\nAsk me anything based on your consulting documents.\n")
     while True:
@@ -110,10 +102,11 @@ Answer:"""
             print(chunk['message']['content'], end='', flush=True)
         print("\n" + "-"*50)
 
-# -----------------------------
-# main
+
 # -----------------------------
 
+
+# main
 if __name__ == "__main__":
     print("Loading documents from:", DATA_FOLDER)
     documents = load_documents(DATA_FOLDER)
